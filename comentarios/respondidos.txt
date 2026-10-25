@@ -1,4 +1,5 @@
-# Un comment_id RAÍZ por línea. Si está acá, ese hilo YA fue respondido o revisado: no se responde nunca más.
+# Un comment_id por línea (raíz o respuesta de otra persona dentro de un hilo).
+# Si un comment_id está acá, YA fue respondido o revisado: no se responde nunca más.
 18034577351909666
 18356357335170108
 18594454492067764
@@ -11,3 +12,7 @@
 18637653562057357
 17887025079624657
 18131396491696458
+18111205181207818
+18097499195394352
+18091852526218320
+18031268756684081
