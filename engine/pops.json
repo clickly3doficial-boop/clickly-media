@@ -1,7 +1,1 @@
-{"base":{"name":"CLICKLY BOX","word":"CLICKLY BOX","c":"#4F86E8","c2":"#1E4FB0","line":"base"},
- "medialuna":{"name":"MEDIALUNA","word":"MEDIALUNA","c":"#6FB0EA","c2":"#2E6FB8","line":"ar"},
- "alfajor":{"name":"ALFAJOR","word":"ALFAJOR","c":"#A35E36","c2":"#4E2511","line":"ar"},
- "mate":{"name":"MATE","word":"MATE","c":"#86AA50","c2":"#3F5A1D","line":"ar"},
- "heart":{"name":"HEART WAFFLE","word":"WAFFLE","c":"#F48AA6","c2":"#C24A6C","line":"bf"},
- "pancake":{"name":"PANCAKE","word":"PANCAKE","c":"#F2A64E","c2":"#B8661C","line":"bf"},
- "macaron":{"name":"MACARON","word":"MACARON","c":"#B7A1E0","c2":"#6E55A8","line":"sweet"}}
+{"base": {"name": "CLICKLY BOX", "word": "CLICKLY BOX", "c": "#4F86E8", "c2": "#1E4FB0", "line": "base"}, "medialuna": {"name": "MEDIALUNA", "word": "MEDIALUNA", "c": "#6FB0EA", "c2": "#2E6FB8", "line": "ar"}, "alfajor": {"name": "ALFAJOR", "word": "ALFAJOR", "c": "#A35E36", "c2": "#4E2511", "line": "ar"}, "mate": {"name": "MATE", "word": "MATE", "c": "#86AA50", "c2": "#3F5A1D", "line": "ar"}, "heart": {"name": "HEART WAFFLE", "word": "WAFFLE", "c": "#F48AA6", "c2": "#C24A6C", "line": "bf"}, "pancake": {"name": "PANCAKE", "word": "PANCAKE", "c": "#F2A64E", "c2": "#B8661C", "line": "bf"}, "macaron": {"name": "MACARON", "word": "MACARON", "c": "#B7A1E0", "c2": "#6E55A8", "line": "sweet"}, "muffin": {"name": "MUFFIN POP", "word": "MUFFIN", "c": "#F7A8C4", "c2": "#D0577F", "line": "bf"}}

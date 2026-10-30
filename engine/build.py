@@ -9,7 +9,7 @@ spec = json.load(open(sys.argv[1], encoding='utf-8')); OUT = os.path.abspath(sys
 V = os.environ.get('VOICE', 'em_alex'); SP = float(os.environ.get('SPEED', '1.08')); FPS = 30
 SC = spec['scenes']
 if SC[-1]['type'] != 'logo': SC.append({'type': 'logo'})
-MIN = {'hook': 3.0, 'card': 3.0, 'pop': 2.8, 'list': 4.5, 'trio': 3.6, 'cta': 3.4, 'logo': 2.9}
+MIN = {'hook': 3.0, 'card': 3.0, 'pop': 2.8, 'list': 4.5, 'trio': 3.6, 'cta': 3.4, 'logo': 2.9, 'clip': 5.5}
 
 def rw(p, sr_out=None):
     w = wave.open(p); a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(float) / 32767; sr = w.getframerate()
@@ -35,6 +35,7 @@ for i, s in enumerate(SC):
     if s['type'] in ('card', 'pop') and s.get('pop'): clicks.append(dict(s=i, t=st[i] + D[i] - 0.32))
     if s['type'] == 'list' and s.get('pop'): clicks.append(dict(s=i, t=st[i] + D[i] - 0.32))
     if s['type'] == 'trio': clicks += [dict(s=i, t=st[i] + 0.15 + k * 0.42) for k in range(min(3, len(s.get('pops', []))))]
+    if s['type'] == 'clip': clicks += [dict(s=i, t=st[i] + x) for x in s.get('clicks', [])]
     if s['type'] == 'hook' and s.get('clicks'): clicks += [dict(s=i, t=st[i] + 1.75 + k * 0.3) for k in range(len(s.get('pops', [])))]
 logoclick = st[-1] + 1.25; total = sum(D)
 plan = dict(scenes=SC, st=st, d=D, words=W, clicks=clicks, logoclick=logoclick, total=total,
