@@ -99,7 +99,8 @@ def stab(ch, d):
     t = tt(d); y = sum(np.sign(np.sin(2 * np.pi * f * 2 * t)) * 0.3 + np.sin(2 * np.pi * f * 2 * t) for f in ch[1:]); return lp(y, 10) * np.exp(-t / 0.18)
 def bass(f, d): t = tt(d); y = np.sin(2 * np.pi * f / 2 * t) + 0.4 * np.sign(np.sin(2 * np.pi * f / 2 * t)); return lp(y, 30) * np.exp(-t / 0.25)
 b = 0.0; k = 0; hookend = st[1] if len(st) > 1 else 0
-while b < logoclick - 0.05:
+MUS = spec.get('music', 'house')
+while MUS == 'house' and b < logoclick - 0.05:
     inhook = b < hookend - 0.05; ch = prog[(k // 4) % 4]
     if not inhook or k % 2 == 0: put(b, kick, 0.55, music)
     if k % 2 == 1 and not inhook: put(b, clap, 0.25, music)
@@ -109,6 +110,41 @@ while b < logoclick - 0.05:
     if k % 2 == 0: put(b, stab(ch, bt), 0.10, music)
     j = int(b * SR); n = int(0.25 * SR); seg = side[j:j + n]; side[j:j + n] = np.minimum(seg, 0.45 + 0.55 * (tt(0.25) / 0.25)[:len(seg)])
     b += bt; k += 1
+
+if MUS == 'funk':
+    bpm = 104; bt = 60 / bpm
+    ch = [([261.6, 329.6, 392.0], 65.4), ([220.0, 261.6, 329.6], 55.0), ([174.6, 220.0, 261.6], 87.3), ([196.0, 246.9, 293.7], 98.0)]
+    def ep(f, d=0.5):
+        t = tt(d); return (np.sin(2*np.pi*f*t) + 0.5*np.sin(2*np.pi*2*f*t)*np.exp(-t/0.12) + 0.2*np.sin(2*np.pi*3*f*t)*np.exp(-t/0.05)) * np.exp(-t/0.3) * np.minimum(1, t/0.003)
+    def fbass(f, d=0.28):
+        t = tt(d); y = np.sin(2*np.pi*f*t) + 0.35*np.sign(np.sin(2*np.pi*f*t)); return lp(y, 18) * np.exp(-t/0.2) * np.minimum(1, t/0.004)
+    def mar(f, d=0.5):
+        t = tt(d); return (np.sin(2*np.pi*f*t) + 0.3*np.sin(2*np.pi*3.9*f*t)*np.exp(-t/0.03)) * np.exp(-t/0.2) * np.minimum(1, t/0.002)
+    ohat = R(8).standard_normal(int(0.18*SR)) * np.exp(-tt(0.18)/0.05); ohat -= lp(ohat, 3)
+    mel = [523.3, 587.3, 659.3, 784.0, 659.3, 587.3, 523.3, 440.0]
+    hookend = st[1] if len(st) > 1 else 0; bar = 0; t0 = 0.0
+    while t0 < logoclick - 0.05:
+        tones, root = ch[bar % 4]; inhook = t0 < hookend - 0.05
+        for q in range(8):
+            tb = t0 + q*bt/2 + (0.14*bt/2 if q % 2 else 0)
+            put(tb, hat, 0.10 if q % 2 else 0.07, music)
+            if q % 2 and not inhook: put(tb + 0.02, ohat, 0.05, music)
+            if q % 2 == 1 and q in (1, 5): put(t0 + q*bt/2 - 0.0, ep(tones[0]*2, 0.4), 0.0, music)
+        for beat in (0, 2.5):
+            put(t0 + beat*bt, kick, 0.50, music)
+            j = int((t0 + beat*bt) * SR); n = int(0.22 * SR); sg = side[j:j+n]; side[j:j+n] = np.minimum(sg, 0.5 + 0.5*(tt(0.22)/0.22)[:len(sg)])
+        if not inhook:
+            for beat in (1, 3): put(t0 + beat*bt, clap, 0.28, music)
+            put(t0 + 3.5*bt, kick, 0.35, music)
+            for beat, mult in ((0, 1), (0.75, 1), (1.5, 2), (2, 1), (3, 1), (3.5, 1.5)): put(t0 + beat*bt, fbass(root*mult), 0.26, music)
+            for beat in (0.5, 1.5, 2.5, 3.5):
+                for f in tones: put(t0 + beat*bt, ep(f), 0.055, music)
+            for q in range(8):
+                if (bar + q) % 3 != 2: put(t0 + q*bt/2, mar(mel[(q + bar*3) % 8], 0.4), 0.075, music)
+        else:
+            for beat in (0.5, 2.5):
+                for f in tones: put(t0 + beat*bt, ep(f), 0.05, music)
+        bar += 1; t0 += 4*bt
 venv = lp(venv, 4000); duck = 1 - 0.5 * np.clip(venv * 3, 0, 1)
 mix += music * side * duck * 0.7
 mix = mix[:int(total * SR)]; fade = np.ones_like(mix); fade[-int(0.4 * SR):] = np.linspace(1, 0, int(0.4 * SR)); mix *= fade
